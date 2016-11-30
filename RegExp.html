@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+/*
+什么是正则表达式
+	规则表达式，查找匹配某些符合规则的字符串，正则表达式就是写这种规则的工具
+
+	写法一:
+		简写：/规则/ 这种性能要更高
+
+	写法二：
+		new RegExp(字符串的规则，修饰符)；
+
+	转义符：
+		\+字符，如果这个祝贺在系统中已经有了默认的定制，那么久为特殊的转义符
+		转义符后面跟上一个普通的字符，单标一个或一段特殊的内容
+
+		\n 换行
+		\r 回车
+		\t 制表符
+		......
+
+	new RegExp('a');
+	/a/
+	****new RegExp('\/a'); /\/a/
+
+
+正则的方法：
+	1.test
+		查看正则表达式与制定的字符串是否匹配，如果匹配成功，返回一个布尔值(true),否则false;
+		*为正则身上的方法
+
+		修饰符：
+			g -> global 全局
+			i -> 不区分英文大小写
+			re.test(str)
+
+			修饰符：不分前后顺序
+
+
+		var str = '2nwk23fs9sl';
+
+		console.log(/s/.text(str));
+
+	2.match:
+		将匹配到的字符串放到一个数组中。
+		字符串的方法：
+			str.match(正则)
+
+		量词：
+			+ ：最少一个，最多不限
+			? ：最小可以没有，最大有一个
+
+		特殊的转义符：
+			\d 一个数字
+			\D 一个非数字
+
+		正则的特性：
+			懒惰：匹配到某个规则以后，就直接返回
+			贪婪：会一直找量词中匹配的字符，有多少就匹配多少。
+
+		var str = '12341223111442zZzzZZ3ed33';
+		console.log(str.match(/1+/g));
+		console.log(str.match(/\d+/g));
+		console.log(str.match(/z+/gi));
+
+	3.search:
+		找到字符串中指定字符(正则)的位置，找到返回位置，没有找到返回-1
+		字符串的方法
+		str.search(''||re);
+		var str = 'deffsf82384sfmwwe3g';
+
+		console.log(str.indexof('x'));
+		console.log(str.search(/x/i));
+
+	4.replace():
+		将字符串指定的字符(正则)替换成另外的字符。
+		str.replace(要替换那个||正则，替换成什么||回调函数)；
+		*回调函数中必须写return，不然会为undefined;
+		如果只传一个参数，那么匹配到的字符串就会被替换为undefined；
+
+		var str = '你好，世界！'；
+		var s = str.replace('你好','hello');
+		var s = str.replace('你好',function(){
+			return 'hello2';
+		})
+
+		var str = 'djsklasddDjivkkDvf';
+		var s = str.replace(/d/gi.function($0,$1,$2,$3,$4){
+			
+				$0就为正则每次匹配的字符
+				$1就为每次匹配到字符的位置，index
+				$2整个字符串 all
+				$3 undefined 后面的参数都是未定义。
+			
+
+		return '弟'；
+		})
+
+		var str = '中国共产党总书记习近平说：法轮功是邪教'；
+
+		var s = str.replace(/共产党|习近平|法轮/g,function($0){
+			var temp = '';
+			for(var i=0;i<$0.length;i++){
+				temp += '*';
+			}
+		return temp
+		})
+		console.log(s);
+
+		*在正则中 | 就是或的意思
+
+
+正则中的子项：
+	();
+	从左往右依次计算
+	只要在正则中有子项，那么replace回调函数中的第二个参数开始，就是匹配到的子项（不再是索引）
+
+	(\d+)\D+(\d+((\D)+)\d+)\D?
+	正则中的括号()除了子项还有提权的作用；
+
+
+正则中的子项重定向
+	var str = '55555qqq111';//找到重复的数字
+
+	str.replace(/(\d)\1+(\D)\2+(\d)\3+/,function($0,$1,$2,$3){
+		console.log($3);
+	})
+
+
+正则中的[]
+	[]里面可以为任意的一个字符
+	var str = 'a1ca2ca3ca4ca12c';
+	console.log(str.match(/a[124]2?c/g));
+	返回一个数组['a1c','a2c','a4c','a12c'];
+
+	//[a-zA-Z] 从a到z以及A到Z的所有字母；
+	//[\u4e00-\u9fa5] 所有的中文字符
+
+	[^]排除里面的内容
+	var str = 'a1ca2ca3ca4ca5c';
+	console.log(str.match(/a[^23]c/g))
+	返回一个数组['a1c','a4c','a5c'];
+
+
+正则中的^ $
+	^ 如果在正则开头写： 为开头的意思
+	$ 如果在正则要结束的位置写 ： 为结尾
+
+
+
+
+正则中的量词
+	+ ：最少一个，最多不限
+	? ：最小可以没有，最大有一个
+	{n,m}	最小多少个，最大多少个
+	{n,}	最小多少个，最大不限
+	{1,}	最小1个，最大不限
+	{0,1}	最小0个，最大一个
+	{0,}	最小可以没有，最大无限
+
+	n:最小 m:最大
+
+	注意：量词都是来修饰前面的那个规则的
+	比如：
+		a*	a可以没有也可以无限
+		[a-z]*	a-z可以没有也可以无限
+		\d2+ 一个数字和至少1个2
+		(\d2)+ 32425262
+
+正则中的特殊转义字符
+
+	\d  数字
+	\D  非数字
+	\s  空格
+	\S  非空格
+	\w
+	\W
+
+	\b  边界符		在数字、字母。下划线红室友边界符的
+	\B
+	.	任意一个字符(除了\n)
+	\n 	换行
+
+在JS中\的问题
+	字符串中不能随便写\，如果非要写\ ,就要转义\
+	new RegExp(必须为字符串)
+
+	如果要写 str = '\s';
+	就应该写为 str = '\\s'
+
+正则的面试题：
+	1.计算字啊换字符串的字节长度，（中文为3个字节，英文为1个字节）
+	
+		var str = '你好世界hello呵呵'；
+
+		var num = 0;
+
+		for(var i=0;i<str.length;i++){
+			if(/[\u4e00-\u9fa5]/.test(str.charAt(i))){
+				num+=3
+			}else{
+				num++;
+			}
+		}
+		console.log(num);
+		*中文的区间范围：/[\u4e00-\u9fa5]/
+
+	2.格式化日期
+		2016-11-28
+		2016.11.28
+		2016:11:28
+		2016年11月28日
+
+		var str = '2016年11月28日';
+
+		console.log(formatFn(str));
+		function formatFn(str){
+			var s = str.replace(/(\d+)\D+(\d+)\D+(\d+)\D/),function($0,$1,$2,$3){
+				return $1+'年'+$2+'月'+$3+'日'；
+			}
+			return s；
+		}
+
+	3.找出重复次数最多的是哪个字符？
+		var str = '111111111122222222223333333334444445555555555555555555555';
+
+		//普通版
+		var json = {};
+		for(var i=0;i<str.length;i++){
+			if(!josn[str.charAt(i)]){
+				josn[str.charAt(i)] = 1;
+			}else{
+				josn[str.charAt(i)]++
+			}
+		}
+
+		var min = -Infinity;
+		var n = '';
+
+		for(var key in josn){
+			if(min < josn[key]){
+				min = json[key];
+				n = key;
+			}
+		}
+		console.log('出现最多的是'+n+'出现了'+min+'次')；
+
+		//正则版
+		var arr = str.split('');
+		arr.sort();
+		str = arr.join('');
+		var min = -Infinity;
+		var n = '';
+		str.replace(/(\d)\1+/g,function($0,$1){
+			if(min<$0.length){
+				min = $0.length;
+				n = $1;
+			}
+		})
+		console.log('出现最多的是'+n+'出现了'+min+'次');
+
+	4.replace的面试题
+		var ison = {
+			name = '小明'，
+			age = 18
+		}
+		var str = '今天{name}说：我今年{age}'；
+
+		var s = str.replace(/{[a-z]+}/g,function($0){
+			return josn[$0.replace(/{|}/g,'')];
+		})
+		console.log(s);
+
+	5.qq验证
+		var str = '322552';
+
+		console.log(/^[1-9]\d{4,10}$/.rest(str.trim()));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+</script>
+</html>

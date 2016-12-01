@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+</head>
+<style>
+body{
+	margin: 0;
+}
+#div{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100px;
+	height: 100px;
+	background: red;
+}
+#div2{
+	position: absolute;
+	left: 300px;
+	top: 300px;
+	width: 100px;
+	height: 100px;
+	background: yellow;
+}
+</style>
+<body>
+	<div id="div"></div>
+	<div id="div2"></div>
+</body>
+<script>
+(function(){
+	function tuozhuai(id){
+		this.div = document.getElementById(id);
+		this.divX = 0;
+		this.divY = 0;
+		this.l = 0;
+		this.t = 0;
+		var _this  = this;
+		this.div.onmousedown = function(){
+			_this.down()
+			return false
+		}
+	}
+	tuozhuai.prototype.down = function(ev){
+		var _this=this;
+		var ev=ev||event;
+		this.divX = ev.pageX - this.div.offsetLeft;
+		this.divY = ev.pageY - this.div.offsetTop;
+		window.onmousemove=function(ev){
+			_this.move();
+		};
+		window.onmouseup=function(){
+			_this.up();
+		};
+	}
+	tuozhuai.prototype.move = function(ev){
+		var ev=ev||event;
+		this.l = ev.pageX - this.divX;
+		this.t = ev.pageY - this.divY;
+		if(this.l<0){
+			this.l = 0;
+		}
+		if(this.l>document.documentElement.clientWidth - this.div.offsetWidth){
+			this.l = document.documentElement.clientWidth - this.div.offsetWidth;
+		}
+		if(this.t<0){
+			this.t = 0;
+		}
+		if(this.t>document.documentElement.clientHeight - this.div.offsetHeight){
+			this.t = document.documentElement.clientHeight - this.div.offsetHeight
+		}
+		this.div.style.left = this.l+'px';
+		this.div.style.top = this.t+'px';	
+	}
+	tuozhuai.prototype.up = function(){
+		window.onmousemove = null;
+		window.onmouseup = null;
+	}
+	
+	var d1 = new tuozhuai('div');
+	var d2 = new tuozhuai('div2');
+	
+})()
+</script>
+</html>

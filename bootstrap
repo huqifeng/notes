@@ -15,8 +15,19 @@
 $(function(){
 /*
     bootstrap 栅格系统
-
-
+    
+        bootstrap 容器
+            1、container-fluid   流体布局
+                流体布局会根据屏幕的尺寸自动适应宽度，但会自动添加一个左右的padding,左右有空隙；
+            2、container         固定布局
+                固定布局会根据屏幕的尺寸，自动设定宽度
+                1200（超大屏幕以上）宽度为1170px
+                992（大屏幕以上）宽度为970px
+                768（中等屏幕以上）宽度为750px
+                768（以下）宽度为 auto 宽度会撑满整行
+            建议：container-fluid与container尽量不要相互嵌套
+            
+            制作导航的时候可以使用 container-fluid,但会有padding,中间嵌套一个row可以撑开默认的padding
 */
 })
 </scrit>

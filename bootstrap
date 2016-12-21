@@ -28,6 +28,29 @@ $(function(){
             建议：container-fluid与container尽量不要相互嵌套
             
             制作导航的时候可以使用 container-fluid,但会有padding,中间嵌套一个row可以撑开默认的padding
+            
+            3、row 栅格系统中的行 col 栅格系统中的列
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-1">1111</div>
+                        <div class="col-lg-11">2222</div>
+                    </div>
+                </div>
+               
+               栅格化系统中默认将一行（row）分为12个单位的列（col）
+               col-lg-1     <1200
+               col-md-1     <992
+               col-sm-1     <768        小于该值得话，会显示整行；
+               col-xs-1     固定
+               当一行超过12列的话，会另起一行显示
+               row、col用的是浮动的原理
+               但当分辨率变小以后，row中的col还是会根据row的宽度进行分配。
+               
+           4、组合写法
+                <div class="col-lg-3 col-md-4 col-sm-6">111111</div>
+                以上就为组合的写法：
+                    当>1200时显示占3列，当>992时显示占4列，当>768时显示占6列
+                    以上就做到了响应式
 */
 })
 </scrit>
